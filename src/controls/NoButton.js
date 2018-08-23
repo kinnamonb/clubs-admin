@@ -2,16 +2,15 @@ import React, { Component } from 'react'
 
 import Button from './Button'
 
-export class SaveButton extends Component {
+export class NoButton extends Component {
   render() {
     const { onClick } = this.props
     return (
-      <Button isPrimary={true} onClick={onClick}>
-        Save
+      <Button isPrimary={false} onClick={onClick}>
+        No
       </Button>
     )
   }
 }
 
-export default SaveButton
-
+export default NoButton

@@ -1,14 +1,24 @@
 import React, { Component } from 'react'
 
+import './css/Button.css'
+
 export class Button extends Component {
   render() {
-    const { children, isPrimary=false, onClick } = this.props
-    const cls = isPrimary ? 'btn btn-primary' : 'btn'
+    const {
+      children,
+      isPrimary=false,
+      isIcon=false,
+      isListItem=false,
+      onClick } = this.props
+
+    let cls = 'btn'
+    if (isPrimary) { cls += ' btn-primary' }
+    if (isIcon) { cls += ' btn-icon' }
+    if (isListItem) { cls += ' btn-list-item' }
+
     return (
       <a className={cls} onClick={onClick}>
-        <div>
-          {children}
-        </div>
+        {children}
       </a>
     )
   }
