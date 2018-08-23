@@ -1,0 +1,21 @@
+.textbox-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: auto;
+  margin: .5em 1em;
+}
+
+.textbox-wrapper label {
+  margin: 0.2em 0.5em;
+  color: hsl(150, 62%, 16%);
+}
+
+input[type=text] {
+  margin: 0.2em;
+  padding: 0.5em 1em;
+  border-radius: 0.2em;
+  border: 1px solid hsl(150, 62%, 16%);
+  color: hsl(150, 62%, 16%);
+  outline: none;
+  font-size: 1em;
+}
