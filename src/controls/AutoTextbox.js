@@ -43,7 +43,6 @@ export class AutoTextbox extends Component {
   }
 
   handleChange(value) {
-    console.log(`Value: ${value}`)
     this.props.onChange(value)
     this.setState({ value: value })
   }
