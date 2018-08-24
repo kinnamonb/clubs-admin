@@ -4,7 +4,11 @@ import './css/Textbox.css'
 
 export class Textbox extends Component {
   render() {
-    const { label='', placeholder='', value='', onChange } = this.props
+    const {
+      label='',
+      placeholder='',
+      value='',
+      onChange } = this.props
 
     return (
       <div className='textbox-wrapper'>
@@ -13,7 +17,7 @@ export class Textbox extends Component {
           type='text'
           placeholder={placeholder}
           value={value}
-          onChange={onChange} />
+          onChange={e => onChange(e.target.value)} />
       </div>
     )
   }

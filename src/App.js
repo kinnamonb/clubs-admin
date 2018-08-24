@@ -2,24 +2,21 @@ import React, { Component } from 'react'
 
 import './App.css'
 
-import AutoTextbox from './controls/AutoTextbox.js'
+import NumberInput from './controls/NumberInput'
+import AutoTextbox from './controls/AutoTextbox'
 
 export class App extends Component {
-  state = { value: '' }
-
   render() {
-    const colors = ['blue', 'green', 'red', 'yellow', 'purple', 'pink']
+    const options = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+
     return (
       <div>
         <AutoTextbox
-          label='Favorite color'
-          placeholder='Favorite color'
-          value={this.state.value}
-          options={colors}
-          onChange={e => {
-            this.setState({ value: e.target.value })
-            console.log(e.target.value)
-          }} />
+          label='Day'
+          value=''
+          options={options}
+          onChange={value => console.log(value)} />
+        <NumberInput onChange={value => console.log(value)} />
       </div>
     )
   }

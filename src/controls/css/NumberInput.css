@@ -1,0 +1,11 @@
+.number-input-wrapper input[type=text] {
+  border: none;
+  border-bottom: 1px solid hsl(150, 62%, 16%);
+  margin: 0.2em;
+  padding: 0.5em 0.5em;
+  color: hsl(150, 62%, 16%);
+  outline: none;
+  font-size: 1em;
+  width: 2.5em;
+  text-align: center;
+}

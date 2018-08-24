@@ -17,7 +17,7 @@ export class Button extends Component {
     if (isListItem) { cls += ' btn-list-item' }
 
     return (
-      <a className={cls} onClick={onClick}>
+      <a className={cls} onMouseDown={onClick}>
         {children}
       </a>
     )

@@ -10,7 +10,7 @@
   color: hsl(150, 62%, 16%);
 }
 
-input[type=text] {
+.textbox-wrapper input[type=text] {
   margin: 0.2em;
   padding: 0.5em 1em;
   border-radius: 0.2em;
