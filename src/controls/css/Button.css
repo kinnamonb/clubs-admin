@@ -47,3 +47,12 @@
   display: list-item;
   list-style: none;
 }
+
+.btn.selected {
+  background: hsl(150, 50%, 40%);
+  color: #fff;
+}
+
+.btn.selected:hover {
+  background: hsl(150, 50%, 35%);
+}

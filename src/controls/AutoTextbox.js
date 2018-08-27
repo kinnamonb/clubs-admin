@@ -10,7 +10,9 @@ export class AutoTextbox extends Component {
 
   render() {
     const { value } = this.state
-    const { label, placeholder } = this.props
+    const { label, placeholder, options } = this.props
+
+    console.log(options.reduce((o,v) => `${v}|${o}`))
 
     return (
       <div className='auto-textbox-wrapper'>
@@ -18,6 +20,7 @@ export class AutoTextbox extends Component {
           label={label}
           placeholder={placeholder}
           value={value}
+          pattern={options.reduce((o,v) => `${v}|${o}`)}
           onChange={value => this.handleChange(value)} />
         <div className='textbox-list'>
           {this.listOptions()}
@@ -28,13 +31,13 @@ export class AutoTextbox extends Component {
 
   listOptions() {
     const { options } = this.props
-    const { value } = this.state
+    const { value='' } = this.state
 
     return options
       .filter(o => (
-        o.toLowerCase().indexOf(value.toLowerCase()) !== -1)
+        o.toLowerCase().indexOf(value.toLowerCase()) !== -1
         && o.toLowerCase() !== value.toLowerCase()
-      )
+      ))
       .map((o, i) => (
         <ListItemButton key={i} onClick={e => this.handleChange(o)}>
           {o}

@@ -14,15 +14,4 @@
  * "White": #eeeeee; hsl(0, 0%, 93%)
  */
 
-.months {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.months span {
-  flex: 1 1 25%;
-  padding: 0.2em;
-  text-align: center;
-  border: 1px solid red;
-}
 
