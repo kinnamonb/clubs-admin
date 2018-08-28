@@ -8,7 +8,7 @@ export class App extends Component {
   render() {
     return (
       <div>
-        <MonthsSelect onChange={value => console.log(value)} />
+        <MonthsSelect onChange={value => console.dir(value)} />
       </div>
     )
   }

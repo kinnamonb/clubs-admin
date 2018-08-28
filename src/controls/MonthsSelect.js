@@ -8,7 +8,12 @@ import Button from './Button'
 export class MonthsSelect extends Component {
   state = { start: 0, end: 11, except: [] }
 
-  months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+  months = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
+    'August', 'September', 'October', 'November', 'December']
+
+  componentDidUpdate() {
+    this.props.onChange(this.state)
+  }
 
   render() {
     return (
@@ -26,8 +31,10 @@ export class MonthsSelect extends Component {
             onChange={value => this.endAt(value)} />
         </div>
         <div className='months-view'>
-          <p>Click a month to exclude it</p>
-          {this.listMonths()}
+          <p>Select a month to exclude it</p>
+          <div className='months'>
+            {this.listMonths()}
+          </div>
         </div>
       </div>
     )
@@ -40,12 +47,13 @@ export class MonthsSelect extends Component {
       const isSelected = (i >= start && i <= end && !except.includes(i))
 
       return (
-        <Button
-          key={i}
-          customClass={isSelected ? 'selected' : ''}
-          onClick={e => this.select(i)}>
-          {m}
-        </Button>
+        <div key={i} className='month'>
+          <Button
+            customClass={isSelected ? 'selected' : ''}
+            onClick={e => this.select(i)}>
+            {i+1}
+          </Button>
+        </div>
       )
     })
   }

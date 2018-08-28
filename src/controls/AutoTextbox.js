@@ -12,8 +12,6 @@ export class AutoTextbox extends Component {
     const { value } = this.state
     const { label, placeholder, options } = this.props
 
-    console.log(options.reduce((o,v) => `${v}|${o}`))
-
     return (
       <div className='auto-textbox-wrapper'>
         <Textbox

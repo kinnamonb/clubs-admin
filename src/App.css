@@ -14,4 +14,6 @@
  * "White": #eeeeee; hsl(0, 0%, 93%)
  */
 
-
+p {
+  margin: 0 0.5em;
+}
