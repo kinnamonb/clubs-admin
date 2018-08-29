@@ -1,0 +1,7 @@
+.list-item {
+  display: flex;
+}
+
+.list-item .btn:first-of-type {
+  flex: 1;
+}
