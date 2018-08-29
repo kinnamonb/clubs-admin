@@ -1,7 +1,6 @@
 .dialog-wrapper {
   position: absolute;
   top: 0; left: 0; bottom: 0; right: 0;
-  background: rgba(255,255,255,0.6);
 }
 
 .dialog {
@@ -11,7 +10,26 @@
   left: 50%;
   transform: translate(-50%, -50%);
   background: #fff;
-  border: 1px solid hsl(150, 62%, 18%);
+  border: 1px solid #eee;
   border-radius: 0.5em;
-  padding: 1em;
+  box-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+}
+
+.dialog-title {
+  background: hsl(150, 50%, 40%);
+  color: hsl(0, 0%, 93%);
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
+  display: flex;
+  align-items: center;
+}
+
+.dialog-title-text {
+  padding: 0.2em 0.5em;
+  flex: 1;
+}
+
+.dialog-body {
+  padding: 0.5em;
+  text-align: center;
 }

@@ -15,10 +15,14 @@
  */
 
 body {
-  background-color: hsl(150, 50%, 40%);
+  background-color: hsl(0, 0%, 93%);
+  color: hsl(150, 62%, 18%);
 }
 
-p {
+label {
   margin: 0 0.5em;
 }
 
+p {
+  margin: 0.5em 0;
+}
