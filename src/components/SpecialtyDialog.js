@@ -33,8 +33,9 @@ export class SpecialtyItemList extends Component {
         <ConfirmDialog
           z={10}
           isOpen={(confirming !== null)}
+          prompt='Are you sure you want to delete this item?'
           onConfirm={() => this.deleteItem(confirming)}
-          onCancel={() => this.setState({ confirming: null  })}/>
+          onCancel={() => this.setState({ confirming: null })}/>
       </Dialog>
     )
   }

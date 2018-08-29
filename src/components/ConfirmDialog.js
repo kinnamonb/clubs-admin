@@ -6,7 +6,7 @@ import NoButton from '../controls/NoButton'
 
 export class ConfirmDialog extends Component {
   render() {
-    const { z, isOpen } = this.props
+    const { z, isOpen, prompt } = this.props
 
     return (
       <Dialog
@@ -14,7 +14,7 @@ export class ConfirmDialog extends Component {
         isOpen={isOpen}
         title='Confirm Action'
         onClose={() => this.cancel()}>
-        <p>Are you sure?</p>
+        <p>{prompt}</p>
         <YesButton onClick={() => this.confirm()} />
         <NoButton onClick={() => this.cancel()} />
       </Dialog>

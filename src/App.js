@@ -2,11 +2,11 @@ import React, { Component } from 'react'
 
 import './App.css'
 
-import TimeTextbox from './controls/TimeTextbox'
+import MeetingDetailsDialog from './components/MeetingDetailsDialog'
 
 export class App extends Component {
   state = {
-    value: ''
+    isOpen: true
   }
 
   componentDidUpdate() {
@@ -14,11 +14,13 @@ export class App extends Component {
   }
 
   render() {
-    const { value } = this.state
+    const { isOpen } = this.state
+
     return (
-      <TimeTextbox
-        value={value}
-        onChange={value => this.setState({ value: value })} />
+      <MeetingDetailsDialog
+        isOpen={isOpen}
+        onSave={value => console.log(value)}
+        onCancel={() => this.setState({ isOpen: false })} />
     )
   }
 }
