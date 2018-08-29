@@ -2,21 +2,30 @@ import React, { Component } from 'react'
 
 import './App.css'
 
-import SpecialtyItemList from './components/SpecialtyItemList'
+import SpecialtyDialog from './components/SpecialtyDialog'
 
 export class App extends Component {
-  state = { specialties: ['one', 'two', 'three'] }
+  state = {
+    specialties: ['one', 'two', 'three'],
+    sdIsOpen: true
+  }
+
+  componentDidUpdate() {
+    console.dir(this.state)
+  }
 
   render() {
-    const { specialties } = this.state
+    const { specialties, sdIsOpen } = this.state
     const options = [ 'one', 'two', 'three', 'four', 'five' ]
 
     return (
       <div>
-        <SpecialtyItemList
+        <SpecialtyDialog
+          isOpen={sdIsOpen}
           specialties={specialties}
           options={options}
-          onChange={specialties => this.setState({ specialties: specialties })} />
+          onSave={specialties => this.setState({ specialties: specialties })}
+          onCancel={() => this.setState({ sdIsOpen: false })} />
       </div>
     )
   }

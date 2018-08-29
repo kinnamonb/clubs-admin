@@ -6,7 +6,7 @@ export class AddListItemButton extends Component {
   render() {
     const { onClick } = this.props
     return (
-      <Button isPrimary={true} isListItem={true} onClick={onClick}>
+      <Button isListItem={true} onClick={onClick}>
         <div style={{textAlign: 'center'}}>+</div>
       </Button>
     )

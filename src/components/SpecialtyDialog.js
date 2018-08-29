@@ -1,32 +1,57 @@
 import React, { Component } from 'react'
 
+import Dialog from './Dialog'
 import ItemList from './ItemList'
 import AutoTextbox from '../controls/AutoTextbox'
 import SaveButton from '../controls/SaveButton'
 import ListItemButton from '../controls/ListItemButton'
+import ConfirmDialog from './ConfirmDialog'
 
 export class SpecialtyItemList extends Component {
   state = {
     selected: null,
-    values: [...this.props.specialties]
+    specialties: [...this.props.specialties],
+    values: [...this.props.specialties],
+    confirming: null
   }
 
   render() {
+    const { confirming } = this.state
+    const { isOpen, onCancel } = this.props
+
     return (
-      <ItemList
-        onAdd={() => this.createNew()}
-        onDelete={i => this.deleteItem(i)}>
-        {this.list()}
-      </ItemList>
+      <Dialog
+        title='Specialties'
+        isOpen={isOpen}
+        onClose={() => onCancel()}>
+        <ItemList
+          onAdd={() => this.createNew()}
+          onDelete={i => this.confirmDeleteItem(i)}>
+          {this.list()}
+        </ItemList>
+        <SaveButton onClick={() => this.save()} />
+        <ConfirmDialog
+          z={10}
+          isOpen={(confirming !== null)}
+          onConfirm={() => this.deleteItem(confirming)}
+          onCancel={() => this.setState({ confirming: null  })}/>
+      </Dialog>
     )
   }
 
   deleteItem(i) {
-    const { specialties } = this.props
-    this.setItems([
-      ...specialties.slice(0, i),
-      ...specialties.slice(i + 1)
-    ])
+    const { specialties } = this.state
+    this.setState({
+      specialties: [
+        ...specialties.slice(0, i),
+        ...specialties.slice(i + 1)
+      ],
+      confirming: null
+    })
+  }
+
+  confirmDeleteItem(i) {
+    this.setState({ confirming: i })
   }
 
   setItems(items) {
@@ -34,8 +59,8 @@ export class SpecialtyItemList extends Component {
   }
 
   list() {
-    const { specialties, options } = this.props
-    const { selected } = this.state
+    const { options } = this.props
+    const { specialties, selected } = this.state
 
     return specialties.map((s, i) => {
       if (i === selected) {
@@ -65,10 +90,12 @@ export class SpecialtyItemList extends Component {
   }
 
   createNew() {
-    const newSpecialties = [...this.props.specialties, '']
-    const index = this.props.specialties.length
-    this.props.onChange(newSpecialties)
-    this.setState({ selected: index })
+    const { specialties } = this.state
+
+    this.setState({
+      specialties: [...specialties, ''],
+      selected: specialties.length
+    })
   }
 
   storeValue(i, value) {
@@ -79,10 +106,13 @@ export class SpecialtyItemList extends Component {
 
   commitValue(e, i) {
     if (e) { e.preventDefault() }
-    const newSpecialties = [...this.props.specialties]
+    const newSpecialties = [...this.state.specialties]
     newSpecialties[i] = this.state.values[i]
-    this.props.onChange(newSpecialties)
-    this.setState({ selected: null })
+    this.setState({ selected: null, specialties: newSpecialties })
+  }
+
+  save() {
+    this.props.onSave(this.state.specialties)
   }
 
   select(i) {
