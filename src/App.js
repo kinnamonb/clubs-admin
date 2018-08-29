@@ -2,12 +2,11 @@ import React, { Component } from 'react'
 
 import './App.css'
 
-import SpecialtyDialog from './components/SpecialtyDialog'
+import TimeTextbox from './controls/TimeTextbox'
 
 export class App extends Component {
   state = {
-    specialties: ['one', 'two', 'three'],
-    sdIsOpen: true
+    value: ''
   }
 
   componentDidUpdate() {
@@ -15,18 +14,11 @@ export class App extends Component {
   }
 
   render() {
-    const { specialties, sdIsOpen } = this.state
-    const options = [ 'one', 'two', 'three', 'four', 'five' ]
-
+    const { value } = this.state
     return (
-      <div>
-        <SpecialtyDialog
-          isOpen={sdIsOpen}
-          specialties={specialties}
-          options={options}
-          onSave={specialties => this.setState({ specialties: specialties })}
-          onCancel={() => this.setState({ sdIsOpen: false })} />
-      </div>
+      <TimeTextbox
+        value={value}
+        onChange={value => this.setState({ value: value })} />
     )
   }
 }
