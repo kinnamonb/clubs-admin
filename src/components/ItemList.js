@@ -2,42 +2,36 @@ import React, { Component } from 'react'
 
 import './css/ItemList.css'
 
-import ListItemButton from '../controls/ListItemButton'
 import TrashButton from '../controls/TrashButton'
 import AddListItemButton from '../controls/AddListItemButton'
 
 export class ItemList extends Component {
   render() {
+    const { onAdd } = this.props
+
     return (
       <div>
         {this.listItems()}
-        <AddListItemButton onClick={() => console.log('new')} />
+        <AddListItemButton onClick={() => onAdd()} />
       </div>
     )
   }
 
   listItems() {
-    const { items } = this.props
+    const { children } = this.props
 
-    if (!items) { return null }
+    if (!children) { return null }
 
-    return items.map((item, i) => (
+    return children.map((c, i) => (
       <div key={i} className='list-item'>
-        <ListItemButton onClick={() => console.log(i)}>
-          {item}
-        </ListItemButton>
+        {c}
         <TrashButton onClick={() => this.delete(i)} />
       </div>
     ))
   }
 
-  setItems(newItems) {
-    this.props.onChange(newItems)
-  }
-
   delete(i) {
-    const { items } = this.props
-    this.setItems([...items.slice(0,i), ...items.slice(i+1)])
+    this.props.onDelete(i)
   }
 }
 

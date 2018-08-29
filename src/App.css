@@ -26,3 +26,12 @@ label {
 p {
   margin: 0.5em 0;
 }
+
+.inline-form {
+  display: flex;
+  align-items: center;
+}
+
+.inline-form *:first-child {
+  flex: 1;
+}

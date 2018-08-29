@@ -2,19 +2,21 @@ import React, { Component } from 'react'
 
 import './App.css'
 
-import ItemList from './components/ItemList'
+import SpecialtyItemList from './components/SpecialtyItemList'
 
 export class App extends Component {
-  state = { items: ['one', 'two', 'three'] }
+  state = { specialties: ['one', 'two', 'three'] }
 
   render() {
-    const { items } = this.state
+    const { specialties } = this.state
+    const options = [ 'one', 'two', 'three', 'four', 'five' ]
 
     return (
       <div>
-        <ItemList
-          items={items}
-          onChange={items => this.setState({ items: items })} />
+        <SpecialtyItemList
+          specialties={specialties}
+          options={options}
+          onChange={specialties => this.setState({ specialties: specialties })} />
       </div>
     )
   }
