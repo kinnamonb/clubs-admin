@@ -2,11 +2,29 @@ import React, { Component } from 'react'
 
 import './App.css'
 
-import MeetingDetailsDialog from './components/MeetingDetailsDialog'
+import MeetingsListDialog from './components/MeetingsListDialog'
 
 export class App extends Component {
   state = {
-    isOpen: true
+    isOpen: true,
+    meetings: [
+      {
+        from: 0,
+        to: 8,
+        except: [7],
+        time: '7:30pm',
+        dayOfWeek: 2,
+        nth: 2
+      },
+      {
+        from: 9,
+        to: 11,
+        except: [],
+        time: '7:30pm',
+        dayOfWeek: 3,
+        nth: 3
+      }
+    ]
   }
 
   componentDidUpdate() {
@@ -14,11 +32,12 @@ export class App extends Component {
   }
 
   render() {
-    const { isOpen } = this.state
+    const { isOpen, meetings } = this.state
 
     return (
-      <MeetingDetailsDialog
+      <MeetingsListDialog
         isOpen={isOpen}
+        meetings={meetings}
         onSave={value => console.log(value)}
         onCancel={() => this.setState({ isOpen: false })} />
     )

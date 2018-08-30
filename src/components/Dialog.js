@@ -10,7 +10,7 @@ export class Dialog extends Component {
   }
 
   render() {
-    const { z=1, title='', children, isOpen } = this.props
+    const { z=1, title='', children=null, isOpen=false } = this.props
 
     if (isOpen) {
       return (
