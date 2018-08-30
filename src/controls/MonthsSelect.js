@@ -6,27 +6,23 @@ import AutoTextbox from './AutoTextbox'
 import Button from './Button'
 
 export class MonthsSelect extends Component {
-  state = { start: 0, end: 11, except: [] }
+  state = { from: 0, to: 11, except: [] }
 
   months = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
     'August', 'September', 'October', 'November', 'December']
-
-  componentDidUpdate() {
-    this.props.onChange(this.state)
-  }
 
   render() {
     return (
       <div className='months-wrapper'>
         <div className='months-controls'>
           <AutoTextbox
-            label='Starting'
-            value={this.months[this.state.start]}
+            label='From'
+            value={this.months[this.state.from]}
             options={this.months}
             onChange={value => this.startAt(value)} />
           <AutoTextbox
-            label='Ending'
-            value={this.months[this.state.end]}
+            label='To'
+            value={this.months[this.state.to]}
             options={this.months}
             onChange={value => this.endAt(value)} />
         </div>
@@ -41,10 +37,10 @@ export class MonthsSelect extends Component {
   }
 
   listMonths() {
-    const { start, end, except } = this.state
+    const { from, to, except } = this.state
 
     return this.months.map((m, i) => {
-      const isSelected = (i >= start && i <= end && !except.includes(i))
+      const isSelected = (i >= from && i <= to && !except.includes(i))
 
       return (
         <div key={i} className='month'>
@@ -60,9 +56,10 @@ export class MonthsSelect extends Component {
 
   startAt(month) {
     const index = this.months.indexOf(month)
+
     if (index !== -1) {
-      this.setState({
-        start: this.months.indexOf(month),
+      this.makeChange({
+        from: this.months.indexOf(month),
         except: this.state.except.filter(i => i > index)
       })
     }
@@ -70,28 +67,34 @@ export class MonthsSelect extends Component {
 
   endAt(month) {
     const index = this.months.indexOf(month)
+
     if (index !== -1) {
-      this.setState({
-        end: this.months.indexOf(month),
+      this.makeChange({
+        to: this.months.indexOf(month),
         except: this.state.except.filter(i => i < index)
       })
     }
   }
 
   select(i) {
-    const { start, end, except } = this.state
+    const { from, to, except } = this.state
 
-    if (i > start && i < end) {
+    if (i > from && i < to) {
       const index = except.indexOf(i)
       if (index === -1) {
-        this.setState({ except: [...except, i] })
+        this.makeChange({ except: [...except, i] })
       } else {
-        this.setState({ except: [
+        this.makeChange({ except: [
           ...except.slice(0, index),
           ...except.slice(index+1)
         ] })
       }
     }
+  }
+
+  makeChange(newState) {
+    this.setState(newState)
+    this.props.onChange(this.state)
   }
 }
 

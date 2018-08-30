@@ -8,6 +8,7 @@ export class Textbox extends Component {
       label='',
       placeholder='',
       value='',
+      required=false,
       pattern='.*',
       onChange } = this.props
 
@@ -19,6 +20,7 @@ export class Textbox extends Component {
           placeholder={placeholder}
           value={value}
           onChange={e => onChange(e.target.value)}
+          required={required}
           pattern={pattern} />
       </div>
     )

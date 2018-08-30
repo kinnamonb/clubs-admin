@@ -19,6 +19,7 @@ export class AutoTextbox extends Component {
           placeholder={placeholder}
           value={value}
           pattern={options.reduce((o,v) => `${v}|${o}`)}
+          required={true}
           onChange={value => this.handleChange(value)} />
         <div className='textbox-list'>
           {this.listOptions()}
