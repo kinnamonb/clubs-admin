@@ -18,7 +18,12 @@ export class MeetingsListDialog extends Component {
 
     return (
       <div>
-        <Dialog title="Meetings" isOpen={isOpen} onClose={() => this.cancel()}>
+        <Dialog
+          title="Meetings"
+          isOpen={isOpen}
+          onAdd={() => this.addMeeting()}
+          onClose={() => this.cancel()}
+        >
           <ItemList>{this.listItems()}</ItemList>
           <SaveButton onClick={() => this.save()} />
         </Dialog>
@@ -26,6 +31,7 @@ export class MeetingsListDialog extends Component {
           z={z + 1}
           isOpen={selected !== null}
           meeting={meetings[selected]}
+          onSave={m => this.saveMeeting(m)}
           onCancel={() => this.setState({ selected: null })}
         />
       </div>
@@ -37,11 +43,19 @@ export class MeetingsListDialog extends Component {
 
     return meetings.map((m, i) => (
       <ListItemButton key={i} onClick={() => this.select(i)}>
-        {m.from}
-        - {m.to}
+        {m.from} - {m.to}
         (except: {m.except})
       </ListItemButton>
     ));
+  }
+
+  addMeeting() {}
+
+  saveMeeting(meeting) {
+    const { changes, selected } = this.state;
+    const newChanges = [changes];
+    newChanges[selected] = Object.assign(newChanges[selected], meeting);
+    this.setState({ changes: newChanges });
   }
 
   select(i) {
