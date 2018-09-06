@@ -1,9 +1,25 @@
 import React, { Component } from "react";
 
 import List from "./List";
-import Dialog from "./Dialog";
 
 export class ClubForm extends Component {
+  months = [
+    "JAN",
+    "FEB",
+    "MAR",
+    "APR",
+    "MAY",
+    "JUN",
+    "JUL",
+    "AUG",
+    "SEP",
+    "OCT",
+    "NOV",
+    "DEC"
+  ];
+
+  days = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+
   state = {
     selectedMeeting: null
   };
@@ -60,6 +76,8 @@ export class ClubForm extends Component {
             <h3 className="group-title">Meetings</h3>
             <List
               items={this.listMeetings()}
+              editIndex={selectedMeeting}
+              onSave={value => this.saveMeeting(value)}
               onAdd={() => this.newMeeting()}
               onSelect={i => this.selectMeeting(i)}
               onDelete={i => this.deleteMeeting(i)}
@@ -80,12 +98,6 @@ export class ClubForm extends Component {
             </button>
           </div>
         </form>
-        {selectedMeeting !== null && (
-          <Dialog
-            title={this.meetingString(selectedMeeting)}
-            onClose={value => this.closeMeetingEdit(value)}
-          />
-        )}
       </div>
     );
   }
@@ -131,6 +143,55 @@ export class ClubForm extends Component {
   }
 
   newMeeting() {}
+
+  saveMeeting(value) {
+    const userInput = value.toLowerCase();
+    const nthRegex = /([0-9]+)(?:st|nd|rd|th) ([a-z]+)/;
+    const fromRegex = /from ([^\s]+)/;
+    const toRegex = /to ([^\s]+)/;
+    const exceptRegex = /except ([a-z]+)(?:, ([a-z]+))*/;
+
+    const nthArray = nthRegex.exec(userInput);
+    if (!nthArray || nthArray.length !== 3) {
+      return;
+    }
+    const nth = parseInt(nthArray[1]);
+    const dayOfWeek = nthArray[2];
+
+    const fromArray = fromRegex.exec(userInput);
+    if (!fromArray || fromArray.length !== 2) {
+      return;
+    }
+    const from = fromArray[1];
+
+    const toArray = toRegex.exec(userInput);
+    if (!toArray || toArray.length !== 2) {
+      return;
+    }
+    const to = toArray[1];
+
+    const exceptArray = exceptRegex.exec(userInput);
+    if (exceptArray && exceptArray.length < 3) {
+      return;
+    }
+    const except = exceptArray
+      ? exceptArray.filter(e => e !== undefined && !e.startsWith("except"))
+      : [];
+
+    const newMeeting = {
+      nth: nth,
+      dayOfWeek: this.days.findIndex(d =>
+        dayOfWeek.startsWith(d.toLowerCase())
+      ),
+      from: this.months.findIndex(m => from.startsWith(m.toLowerCase())),
+      to: this.months.findIndex(m => to.startsWith(m.toLowerCase())),
+      except: except.map(e =>
+        this.months.findIndex(m => e.startsWith(m.toLowerCase()))
+      )
+    };
+
+    console.dir(newMeeting);
+  }
 
   selectMeeting(i) {
     this.setState({ selectedMeeting: i });

@@ -5,9 +5,6 @@ import "../css/List.css";
 export class List extends Component {
   render() {
     const { onAdd } = this.props;
-    if (!onAdd) {
-      return null;
-    }
 
     return (
       <div className="list-wrapper">
@@ -24,29 +21,55 @@ export class List extends Component {
   }
 
   listItems() {
-    const { items, onSelect, onDelete } = this.props;
-    if (!items || !onSelect) {
-      return null;
-    }
+    const { items, editIndex, onSelect, onDelete } = this.props;
 
-    return items.map((item, i) => (
-      <div key={i} className="list-item">
-        <button
-          type="button"
-          className="btn btn-list"
-          onClick={() => onSelect(i)}
-        >
-          {item}
-        </button>
-        <button
-          type="button"
-          className="btn btn-delete"
-          onClick={() => onDelete(i)}
-        >
-          X
-        </button>
-      </div>
-    ));
+    return items.map((item, i) => {
+      if (editIndex === i) {
+        return (
+          <div key={i} className="list-item">
+            <div className="inline-form">
+              <input
+                ref={el => (this.inputElement = el)}
+                type="text"
+                defaultValue={item}
+                autoFocus={true}
+                placeholder="Nth ???day from month to month except month, month, ..."
+              />
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={() => this.saveItem()}
+              >
+                Save
+              </button>
+            </div>
+          </div>
+        );
+      } else {
+        return (
+          <div key={i} className="list-item">
+            <button
+              type="button"
+              className="btn btn-list"
+              onClick={() => onSelect(i)}
+            >
+              {item}
+            </button>
+            <button
+              type="buttom"
+              className="btn btn-delete"
+              onClick={() => onDelete(i)}
+            >
+              X
+            </button>
+          </div>
+        );
+      }
+    });
+  }
+
+  saveItem() {
+    this.props.onSave(this.inputElement.value);
   }
 }
 
