@@ -2,51 +2,40 @@ import React, { Component } from "react";
 
 import "./App.css";
 
-import MeetingsListDialog from "./components/MeetingsListDialog";
+import { database } from "./firebase";
+
+import Header from "./js/Header";
+import ClubList from "./js/ClubList";
 
 export class App extends Component {
   state = {
-    isOpen: true,
-    clubs: [
-      {
-        meetings: [
-          {
-            from: 0,
-            to: 8,
-            except: [7],
-            time: "7:30pm",
-            dayOfWeek: 2,
-            nth: 2
-          },
-          {
-            from: 9,
-            to: 11,
-            except: [],
-            time: "7:30pm",
-            dayOfWeek: 3,
-            nth: 3
-          }
-        ]
-      }
-    ]
+    clubs: []
   };
 
-  componentDidUpdate() {
-    console.dir(this.state);
+  componentDidMount() {
+    database
+      .collection("clubs")
+      .get()
+      .then(querySnapshot => {
+        const clubs = querySnapshot.docs.map(doc => doc.data());
+        this.setState({ clubs: clubs });
+      })
+      .catch(err => console.error(err));
   }
 
   render() {
-    const { isOpen, clubs } = this.state;
+    const { clubs } = this.state;
 
     return (
-      <MeetingsListDialog
-        z={1}
-        isOpen={isOpen}
-        meetings={clubs[0].meetings}
-        onSave={value => console.log(value)}
-        onCancel={() => this.setState({ isOpen: false })}
-      />
+      <div>
+        <Header />
+        <ClubList clubs={clubs} onDelete={i => this.deleteClub(i)} />
+      </div>
     );
+  }
+
+  deleteClub(i) {
+    console.log(`Deleting ${this.state.clubs[i].name}`);
   }
 }
 

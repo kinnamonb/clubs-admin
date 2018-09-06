@@ -1,0 +1,39 @@
+.dialog-wrapper {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(238, 238, 238, 0.5);
+  overflow: auto;
+}
+
+.dialog {
+  background-color: #fff;
+  position: absolute;
+  margin: 2em 0;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 0.5em;
+  border: 1px solid #eee;
+  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+.dialog-header {
+  background: #eee;
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
+  padding: 0.5em 1em;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-column-gap: 0.5em;
+  align-items: center;
+}
+
+.dialog-title {
+  color: #396;
+}
+
+.dialog-body {
+  padding: 1em;
+}

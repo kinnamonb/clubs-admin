@@ -1,0 +1,12 @@
+.list-wrapper {
+  display: flex;
+  flex-direction: column;
+  grid-column: 1 / -1;
+  margin: 1em;
+}
+
+.list-item {
+  margin: 0.5em 0;
+  display: grid;
+  grid-template-columns: 1fr auto;
+}
