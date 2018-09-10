@@ -23,6 +23,7 @@ export class ClubForm extends Component {
 
   state = {
     selectedMeeting: null,
+    selectedSpecialty: null,
     newClub: {}
   };
 
@@ -31,7 +32,7 @@ export class ClubForm extends Component {
   }
 
   render() {
-    const { selectedMeeting } = this.state;
+    const { selectedMeeting, selectedSpecialty } = this.state;
     const club = this.club();
 
     return (
@@ -83,6 +84,7 @@ export class ClubForm extends Component {
             <List
               items={this.listMeetings()}
               editIndex={selectedMeeting}
+              editPlaceholder="Nth day of week from month to month except month, etc..."
               onSave={value => this.saveMeeting(value)}
               onAdd={() => this.newMeeting()}
               onSelect={i => this.selectMeeting(i)}
@@ -93,6 +95,9 @@ export class ClubForm extends Component {
             <h3 className="group-title">Specialties</h3>
             <List
               items={club.specialties || []}
+              editIndex={selectedSpecialty}
+              editPlaceholder="Club specialty"
+              onSave={value => this.saveSpecialty(value)}
               onAdd={() => this.newSpecialty()}
               onSelect={i => this.selectSpecialty(i)}
               onDelete={i => this.deleteSpecialty(i)}
@@ -110,6 +115,7 @@ export class ClubForm extends Component {
 
   saveClub(e) {
     e.preventDefault();
+    this.props.onSave(this.club());
   }
 
   meetingString(i) {
@@ -206,7 +212,8 @@ export class ClubForm extends Component {
       )
     };
 
-    let newClub = this.club();
+    let newClub = { ...this.state.newClub };
+    newClub.meetings = this.club().meetings;
     let newMeetings = [...newClub.meetings];
     newMeetings[this.state.selectedMeeting] = newMeeting;
 
@@ -218,23 +225,49 @@ export class ClubForm extends Component {
   }
 
   deleteMeeting(i) {
-    let club = this.club();
+    let club = { ...this.state.newClub };
     club.meetings = [
       ...club.meetings.slice(0, i),
       ...club.meetings.slice(i + 1)
     ];
-    this.setState({ newClub: club });
+    this.setState({ selectedMeeting: null, newClub: club });
   }
 
-  closeMeetingEdit(value) {
-    this.setState({ selectedMeeting: null });
+  newSpecialty() {
+    let club = { ...this.state.newClub };
+    club.specialties = this.club().specialties;
+    let index = 0;
+    if (club.specialties) {
+      index = club.specialties.push("") - 1;
+    } else {
+      club.specialties = [];
+    }
+    this.setState({ selectedSpecialty: index, newClub: club });
   }
 
-  newSpecialty() {}
+  selectSpecialty(i) {
+    this.setState({ selectedSpecialty: i });
+  }
 
-  selectSpecialty(i) {}
+  saveSpecialty(value) {
+    if (value === "") {
+      this.deleteSpecialty(this.state.selectedSpecialty);
+    } else {
+      let club = { ...this.state.newClub };
+      club.specialties = this.club().specialties;
+      club.specialties[this.state.selectedSpecialty] = value;
+      this.setState({ selectedSpecialty: null, newClub: club });
+    }
+  }
 
-  deleteSpecialty(i) {}
+  deleteSpecialty(i) {
+    let club = { ...this.state.newClub };
+    club.specialties = [
+      ...club.specialties.slice(0, i),
+      ...club.specialties.slice(i + 1)
+    ];
+    this.setState({ selectedSpecialty: null, newClub: club });
+  }
 }
 
 export default ClubForm;

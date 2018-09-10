@@ -29,9 +29,17 @@ export class App extends Component {
     return (
       <div>
         <Header />
-        <ClubList clubs={clubs} onDelete={i => this.deleteClub(i)} />
+        <ClubList
+          clubs={clubs}
+          onChange={(i, value) => this.changeClub(i, value)}
+          onDelete={i => this.deleteClub(i)}
+        />
       </div>
     );
+  }
+
+  changeClub(i, value) {
+    console.log(`Updating ${this.state.clubs[i].name}`);
   }
 
   deleteClub(i) {

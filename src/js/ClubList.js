@@ -48,6 +48,7 @@ export class ClubList extends Component {
               club={clubs[selected]}
               months={this.months}
               days={this.days}
+              onSave={value => this.save(value)}
             />
           </Dialog>
         )}
@@ -59,6 +60,11 @@ export class ClubList extends Component {
 
   select(i) {
     this.setState({ selected: i });
+  }
+
+  save(value) {
+    this.props.onChange(this.state.selected, value);
+    this.setState({ selected: null });
   }
 
   delete(i) {

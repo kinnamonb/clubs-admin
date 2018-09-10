@@ -21,7 +21,13 @@ export class List extends Component {
   }
 
   listItems() {
-    const { items, editIndex, onSelect, onDelete } = this.props;
+    const {
+      items,
+      editIndex,
+      editPlaceholder,
+      onSelect,
+      onDelete
+    } = this.props;
 
     return items.map((item, i) => {
       if (editIndex === i) {
@@ -33,7 +39,7 @@ export class List extends Component {
                 type="text"
                 defaultValue={item}
                 autoFocus={true}
-                placeholder="Nth ???day from month to month except month, month, ..."
+                placeholder={editPlaceholder}
                 onKeyDown={e => this.handleKeyDown(e)}
               />
               <button
