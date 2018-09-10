@@ -6,10 +6,7 @@ export class Club {
     email: ""
   };
   location = {
-    address: "700 Agricultural Center Drive",
-    city: "Westminster",
-    state: "MD",
-    zip: "21157"
+    address: "700 Agricultural Center Drive"
   };
   meetings = [];
   specialties = [];

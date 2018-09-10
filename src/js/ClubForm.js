@@ -63,22 +63,25 @@ export class ClubForm extends Component {
             <input
               type="text"
               id="leader-name"
-              defaultValue={club.leader.name || ""}
+              value={club.leader.name}
               placeholder="Leader name"
+              onChange={e => this.change("leader.name", e.target.value)}
             />
             <label htmlFor="leader-phone">Phone</label>
             <input
               type="text"
               id="leader-phone"
-              defaultValue={club.leader.phone || ""}
+              value={club.leader.phone}
               placeholder="Leader phone number"
+              onChange={e => this.change("leader.phone", e.target.value)}
             />
             <label htmlFor="leader-email">Email</label>
             <input
               type="email"
               id="leader-email"
-              defaultValue={club.leader.email || ""}
+              value={club.leader.email}
               placeholder="Leader email"
+              onChange={e => this.change("leader.email", e.target.value)}
             />
           </div>
           <div className="form-group">
