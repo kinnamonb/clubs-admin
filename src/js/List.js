@@ -34,6 +34,7 @@ export class List extends Component {
                 defaultValue={item}
                 autoFocus={true}
                 placeholder="Nth ???day from month to month except month, month, ..."
+                onKeyDown={e => this.handleKeyDown(e)}
               />
               <button
                 type="button"
@@ -66,6 +67,13 @@ export class List extends Component {
         );
       }
     });
+  }
+
+  handleKeyDown(e) {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      this.saveItem();
+    }
   }
 
   saveItem() {

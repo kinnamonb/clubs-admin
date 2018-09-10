@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 
 import List from "./List";
+import Meeting from "./Meeting";
 
 export class ClubForm extends Component {
   months = [
@@ -21,12 +22,17 @@ export class ClubForm extends Component {
   days = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
 
   state = {
-    selectedMeeting: null
+    selectedMeeting: null,
+    newClub: {}
   };
+
+  club() {
+    return Object.assign(this.props.club, this.state.newClub);
+  }
 
   render() {
     const { selectedMeeting } = this.state;
-    const { club } = this.props;
+    const club = this.club();
 
     return (
       <div>
@@ -107,15 +113,20 @@ export class ClubForm extends Component {
   }
 
   meetingString(i) {
-    const { club, months, days } = this.props;
+    const club = this.club();
+    const { months, days } = this.props;
     const meeting = club.meetings[i];
-    const except = meeting.except
-      .map(m => months[m])
-      .reduce((prev, curr) => `${prev}, ${curr}`);
+    const except =
+      meeting.except.length === 0
+        ? ""
+        : "except " +
+          meeting.except
+            .map(m => months[m])
+            .reduce((prev, curr) => `${prev}, ${curr}`);
 
     return `${this.nthify(meeting.nth)} ${days[meeting.dayOfWeek]} from ${
       months[meeting.from]
-    } to ${months[meeting.to]} except ${except}`;
+    } to ${months[meeting.to]} ${except}`;
   }
 
   nthify(n) {
@@ -137,12 +148,17 @@ export class ClubForm extends Component {
   }
 
   listMeetings() {
-    const { club } = this.props;
+    const club = this.club();
 
     return club.meetings.map((m, i) => this.meetingString(i));
   }
 
-  newMeeting() {}
+  newMeeting() {
+    const club = this.club();
+
+    const index = club.meetings.push(new Meeting()) - 1;
+    this.setState({ selectedMeeting: index, newClub: club });
+  }
 
   saveMeeting(value) {
     const userInput = value.toLowerCase();
@@ -155,7 +171,7 @@ export class ClubForm extends Component {
     if (!nthArray || nthArray.length !== 3) {
       return;
     }
-    const nth = parseInt(nthArray[1]);
+    const nth = parseInt(nthArray[1], 10);
     const dayOfWeek = nthArray[2];
 
     const fromArray = fromRegex.exec(userInput);
@@ -190,14 +206,25 @@ export class ClubForm extends Component {
       )
     };
 
-    console.dir(newMeeting);
+    let newClub = this.club();
+    let newMeetings = [...newClub.meetings];
+    newMeetings[this.state.selectedMeeting] = newMeeting;
+
+    this.setState({ selectedMeeting: null, newClub: newClub });
   }
 
   selectMeeting(i) {
     this.setState({ selectedMeeting: i });
   }
 
-  deleteMeeting(i) {}
+  deleteMeeting(i) {
+    let club = this.club();
+    club.meetings = [
+      ...club.meetings.slice(0, i),
+      ...club.meetings.slice(i + 1)
+    ];
+    this.setState({ newClub: club });
+  }
 
   closeMeetingEdit(value) {
     this.setState({ selectedMeeting: null });
