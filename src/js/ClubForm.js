@@ -23,12 +23,11 @@ export class ClubForm extends Component {
 
   state = {
     selectedMeeting: null,
-    selectedSpecialty: null,
-    newClub: {}
+    selectedSpecialty: null
   };
 
   club() {
-    return Object.assign(this.props.club, this.state.newClub);
+    return this.props.club;
   }
 
   render() {
@@ -119,7 +118,7 @@ export class ClubForm extends Component {
   }
 
   change(prop, value) {
-    let club = { ...this.state.newClub };
+    let club = this.club();
     let props = prop.split(".");
     let targetProp = props.pop();
     let target = club;
@@ -150,9 +149,9 @@ export class ClubForm extends Component {
             .map(m => months[m])
             .reduce((prev, curr) => `${prev}, ${curr}`);
 
-    return `${this.nthify(meeting.nth)} ${days[meeting.dayOfWeek]} from ${
-      months[meeting.from]
-    } to ${months[meeting.to]} ${except}`;
+    return `${meeting.time} on the ${this.nthify(meeting.nth)} ${
+      days[meeting.dayOfWeek]
+    } from ${months[meeting.from]} to ${months[meeting.to]} ${except}`;
   }
 
   nthify(n) {
@@ -182,16 +181,23 @@ export class ClubForm extends Component {
   newMeeting() {
     const club = this.club();
 
-    const index = club.meetings.push(new Meeting()) - 1;
+    const index = club.meetings.push({ ...new Meeting() }) - 1;
     this.setState({ selectedMeeting: index, newClub: club });
   }
 
   saveMeeting(value) {
     const userInput = value.toLowerCase();
+    const timeRegex = /([0-1]?[0-9]:[0-6][0-9]\s?[apAP][mM]?)/;
     const nthRegex = /([0-9]+)(?:st|nd|rd|th) ([a-z]+)/;
     const fromRegex = /from ([^\s]+)/;
     const toRegex = /to ([^\s]+)/;
     const exceptRegex = /except ([a-z]+)(?:, ([a-z]+))*/;
+
+    const timeArray = timeRegex.exec(userInput);
+    if (!timeArray || timeArray.length !== 2) {
+      return;
+    }
+    const time = timeArray[1];
 
     const nthArray = nthRegex.exec(userInput);
     if (!nthArray || nthArray.length !== 3) {
@@ -221,6 +227,7 @@ export class ClubForm extends Component {
       : [];
 
     const newMeeting = {
+      time: time,
       nth: nth,
       dayOfWeek: this.days.findIndex(d =>
         dayOfWeek.startsWith(d.toLowerCase())
@@ -232,12 +239,9 @@ export class ClubForm extends Component {
       )
     };
 
-    let newClub = { ...this.state.newClub };
-    newClub.meetings = this.club().meetings;
-    let newMeetings = [...newClub.meetings];
-    newMeetings[this.state.selectedMeeting] = newMeeting;
+    this.club().meetings[this.state.selectedMeeting] = newMeeting;
 
-    this.setState({ selectedMeeting: null, newClub: newClub });
+    this.setState({ selectedMeeting: null });
   }
 
   selectMeeting(i) {
@@ -283,8 +287,8 @@ export class ClubForm extends Component {
   deleteSpecialty(i) {
     let club = { ...this.state.newClub };
     club.specialties = [
-      ...club.specialties.slice(0, i),
-      ...club.specialties.slice(i + 1)
+      ...this.club().specialties.slice(0, i),
+      ...this.club().specialties.slice(i + 1)
     ];
     this.setState({ selectedSpecialty: null, newClub: club });
   }

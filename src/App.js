@@ -9,18 +9,22 @@ import ClubList from "./js/ClubList";
 
 export class App extends Component {
   state = {
-    clubs: []
+    clubs: [],
+    keys: {}
   };
 
   componentDidMount() {
     database
       .collection("clubs")
-      .get()
-      .then(querySnapshot => {
-        const clubs = querySnapshot.docs.map(doc => doc.data());
-        this.setState({ clubs: clubs });
-      })
-      .catch(err => console.error(err));
+      .orderBy("name")
+      .onSnapshot(querySnapshot => {
+        const keys = {};
+        const clubs = querySnapshot.docs.map((doc, i) => {
+          keys[i] = doc.id;
+          return doc.data();
+        });
+        this.setState({ clubs: clubs, keys: keys });
+      });
   }
 
   render() {
@@ -39,19 +43,23 @@ export class App extends Component {
   }
 
   changeClub(i, value) {
-    console.dir(i);
-    console.dir(value);
-    const { clubs } = this.state;
-    if (i === clubs.length) {
-      console.log(`Creating new club ${value.name}`);
-      this.setState({ clubs: clubs.concat(value) });
+    const { keys } = this.state;
+    if (!keys[i]) {
+      database.collection("clubs").add(value);
     } else {
-      console.log(`Updating ${this.state.clubs[i].name}`);
+      database
+        .collection("clubs")
+        .doc(keys[i])
+        .set(value);
     }
   }
 
   deleteClub(i) {
-    console.log(`Deleting ${this.state.clubs[i].name}`);
+    const { keys } = this.state;
+    database
+      .collection("clubs")
+      .doc(keys[i])
+      .delete();
   }
 }
 

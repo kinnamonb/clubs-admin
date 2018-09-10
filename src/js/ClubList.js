@@ -31,6 +31,12 @@ export class ClubList extends Component {
     const { selected } = this.state;
     const { clubs } = this.props;
     const items = clubs.map(club => club.name);
+    let club = null;
+    if (selected === -1) {
+      club = { ...new Club() };
+    } else if (selected !== null) {
+      club = clubs[selected];
+    }
 
     return (
       <div>
@@ -40,13 +46,13 @@ export class ClubList extends Component {
           onSelect={i => this.select(i)}
           onDelete={i => this.delete(i)}
         />
-        {selected !== null && (
+        {club !== null && (
           <Dialog
-            title={clubs[selected].name}
+            title={club.name || "New Club"}
             onClose={value => this.handleClose(value)}
           >
             <ClubForm
-              club={clubs[selected]}
+              club={club}
               months={this.months}
               days={this.days}
               onSave={value => this.save(value)}
@@ -58,8 +64,7 @@ export class ClubList extends Component {
   }
 
   newClub() {
-    const index = this.props.clubs.push(new Club()) - 1;
-    this.setState({ selected: index });
+    this.setState({ selected: -1 });
   }
 
   select(i) {
@@ -67,8 +72,9 @@ export class ClubList extends Component {
   }
 
   save(value) {
-    this.props.onChange(this.state.selected, value);
-    this.setState({ selected: null });
+    const index = this.state.selected || this.props.clubs.push(value) - 1;
+    this.props.onChange(index, value);
+    this.setState({ selected: null, newClub: false });
   }
 
   delete(i) {
@@ -77,11 +83,6 @@ export class ClubList extends Component {
   }
 
   handleClose(value) {
-    if (value) {
-      console.log(`value = ${value}`);
-    } else {
-      console.log(`value not set`);
-    }
     this.setState({ selected: null });
   }
 }
