@@ -44,15 +44,17 @@ export class ClubForm extends Component {
             <input
               type="text"
               id="name"
-              defaultValue={club.name || ""}
+              value={club.name}
               placeholder="Club name"
+              onChange={e => this.change("name", e.target.value)}
             />
             <label htmlFor="address">Address</label>
             <input
               type="text"
               id="address"
-              defaultValue={club.address}
+              value={club.location.address}
               placeholder="Full meeting address"
+              onChange={e => this.change("location.address", e.target.value)}
             />
           </div>
           <div className="form-group">
@@ -111,6 +113,21 @@ export class ClubForm extends Component {
         </form>
       </div>
     );
+  }
+
+  change(prop, value) {
+    let club = { ...this.state.newClub };
+    let props = prop.split(".");
+    let targetProp = props.pop();
+    let target = club;
+    props.forEach(p => {
+      if (!target[p]) {
+        target[p] = {};
+      }
+      target = target[p];
+    });
+    target[targetProp] = value;
+    this.setState({ newClub: club });
   }
 
   saveClub(e) {

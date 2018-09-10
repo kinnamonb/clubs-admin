@@ -39,7 +39,15 @@ export class App extends Component {
   }
 
   changeClub(i, value) {
-    console.log(`Updating ${this.state.clubs[i].name}`);
+    console.dir(i);
+    console.dir(value);
+    const { clubs } = this.state;
+    if (i === clubs.length) {
+      console.log(`Creating new club ${value.name}`);
+      this.setState({ clubs: clubs.concat(value) });
+    } else {
+      console.log(`Updating ${this.state.clubs[i].name}`);
+    }
   }
 
   deleteClub(i) {

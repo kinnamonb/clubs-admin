@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import List from "./List";
 import Dialog from "./Dialog";
 import ClubForm from "./ClubForm";
+import Club from "./Club";
 
 export class ClubList extends Component {
   state = {
@@ -56,7 +57,10 @@ export class ClubList extends Component {
     );
   }
 
-  newClub() {}
+  newClub() {
+    const index = this.props.clubs.push(new Club()) - 1;
+    this.setState({ selected: index });
+  }
 
   select(i) {
     this.setState({ selected: i });
