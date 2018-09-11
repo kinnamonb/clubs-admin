@@ -1,11 +1,25 @@
+@import url("https://fonts.googleapis.com/css?family=Open+Sans|Roboto");
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Open Sans", sans-serif;
 }
 
 #root {
   font-family: sans-serif;
+  max-width: 1080px;
+  margin: 0 auto;
 }
 
 /* Colors
@@ -21,6 +35,11 @@
 body {
   background-color: #fff;
   color: hsl(150, 62%, 18%);
+}
+
+h2 {
+  text-align: center;
+  margin: 1em 0 0.5em;
 }
 
 label {
@@ -108,6 +127,7 @@ input:focus {
 .btn-add {
   border: 1px solid hsl(280, 39%, 47%);
   color: hsl(280, 39%, 47%);
+  margin: 0.25em 0;
 }
 
 .btn-add:hover {
@@ -119,11 +139,11 @@ input:focus {
   border: 1px solid transparent;
   background: none;
   font-weight: bold;
-  color: #124c2f;
+  color: #eee;
 }
 
 .btn-close:hover {
-  color: #e5ae41;
+  color: #fff;
   border: 1px solid transparent;
 }
 

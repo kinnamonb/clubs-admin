@@ -40,6 +40,7 @@ export class ClubList extends Component {
 
     return (
       <div>
+        <h2>Clubs</h2>
         <List
           items={items}
           onAdd={() => this.newClub()}

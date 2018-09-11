@@ -1,8 +1,0 @@
-.list-item {
-  display: flex;
-  align-items: center;
-}
-
-.list-item *:first-child {
-  flex: 1;
-}
