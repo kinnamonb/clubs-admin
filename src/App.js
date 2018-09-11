@@ -44,14 +44,29 @@ export class App extends Component {
 
   changeClub(i, value) {
     const { keys } = this.state;
-    if (!keys[i]) {
-      database.collection("clubs").add(value);
-    } else {
-      database
-        .collection("clubs")
-        .doc(keys[i])
-        .set(value);
-    }
+
+    const url = `https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyBqqzlzQIcS9FxvI672fllCpIXVNOO45Vk&address=${
+      value.location.address
+    } Carroll County MD`;
+
+    fetch(url)
+      .then(response => response.json())
+      .then(data => {
+        value.location = Object.assign(
+          value.location,
+          data.results[0].geometry.location
+        );
+      })
+      .then(() => {
+        if (keys[i]) {
+          database
+            .collection("clubs")
+            .doc(keys[i])
+            .set(value);
+        } else {
+          database.collection("clubs").add(value);
+        }
+      });
   }
 
   deleteClub(i) {

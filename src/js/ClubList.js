@@ -72,8 +72,10 @@ export class ClubList extends Component {
   }
 
   save(value) {
-    const index = this.state.selected || this.props.clubs.push(value) - 1;
-    this.props.onChange(index, value);
+    const { selected } = this.state;
+    const { clubs, onChange } = this.props;
+    const index = selected === null ? clubs.push(value) - 1 : selected;
+    onChange(index, value);
     this.setState({ selected: null, newClub: false });
   }
 
