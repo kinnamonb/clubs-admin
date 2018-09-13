@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 
+import firebase from "../firebase";
+
 export class Auth extends Component {
   componentDidMount() {
     window.fbAsyncInit = () => {
@@ -63,12 +65,21 @@ export class Auth extends Component {
       this.FB.api("/me/accounts", "GET", {}, r => {
         const index = r.data.findIndex(page => page.id === "178791702195984");
         if (index !== -1) {
+          const credential = firebase.auth.FacebookAuthProvider.credential(
+            response.authResponse.accessToken
+          );
+          firebase
+            .auth()
+            .signInAndRetrieveDataWithCredential(credential)
+            .catch(error => console.error(error));
           this.props.onAuth(true);
         } else {
+          firebase.auth().signOut();
           this.props.onAuth(false);
         }
       });
     } else {
+      firebase.auth().signOut();
       this.props.onAuth(false);
     }
   }
