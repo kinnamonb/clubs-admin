@@ -9,6 +9,7 @@ import ClubList from "./js/ClubList";
 
 export class App extends Component {
   state = {
+    isAuth: false,
     clubs: [],
     keys: {}
   };
@@ -28,18 +29,24 @@ export class App extends Component {
   }
 
   render() {
-    const { clubs } = this.state;
+    const { isAuth, clubs } = this.state;
 
     return (
       <div>
-        <Header />
-        <ClubList
-          clubs={clubs}
-          onChange={(i, value) => this.changeClub(i, value)}
-          onDelete={i => this.deleteClub(i)}
-        />
+        <Header onAuth={isAuth => this.setAuth(isAuth)} />
+        {isAuth && (
+          <ClubList
+            clubs={clubs}
+            onChange={(i, value) => this.changeClub(i, value)}
+            onDelete={i => this.deleteClub(i)}
+          />
+        )}
       </div>
     );
+  }
+
+  setAuth(isAuth) {
+    this.setState({ isAuth: isAuth });
   }
 
   changeClub(i, value) {

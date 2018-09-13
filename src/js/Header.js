@@ -3,8 +3,12 @@ import React, { Component } from "react";
 import "../css/Header.css";
 import Logo from "../img/ume_4h_logo.png";
 
+import Auth from "./Auth";
+
 export class Header extends Component {
   render() {
+    const { onAuth } = this.props;
+
     return (
       <header>
         <div>
@@ -14,7 +18,7 @@ export class Header extends Component {
           <h1>Club List Manager</h1>
         </div>
         <div>
-          <a onClick={e => this.login()}>Login</a>
+          <Auth onAuth={isAuth => onAuth(isAuth)} />
         </div>
       </header>
     );
