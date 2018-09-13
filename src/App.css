@@ -1,5 +1,15 @@
 @import url("https://fonts.googleapis.com/css?family=Open+Sans|Roboto");
 
+/* Colors
+ *
+ * Primary: #336699; hsl(150, 50%, 40%)
+ * PrimaryDark: #124c2f; hsl(150, 62%, 18%)
+ * Secondary: #e5ae41; hsl(40, 76%, 59%)
+ * SecondaryDark: #664b18; hsl(39, 62%, 25%)
+ * Accent: #8648a6; hsl(280, 39%, 47%)
+ * "White": #eeeeee; hsl(0, 0%, 93%)
+ */
+
 * {
   margin: 0;
   padding: 0;
@@ -22,19 +32,10 @@ h6 {
   margin: 0 auto;
 }
 
-/* Colors
- *
- * Primary: #336699; hsl(150, 50%, 40%)
- * PrimaryDark: #124c2f; hsl(150, 62%, 18%)
- * Secondary: #e5ae41; hsl(40, 76%, 59%)
- * SecondaryDark: #664b18; hsl(39, 62%, 25%)
- * Accent: #8648a6; hsl(280, 39%, 47%)
- * "White": #eeeeee; hsl(0, 0%, 93%)
- */
-
 body {
   background-color: #fff;
   color: hsl(150, 62%, 18%);
+  min-width: 320px;
 }
 
 h2 {

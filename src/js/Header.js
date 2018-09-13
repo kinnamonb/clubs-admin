@@ -11,13 +11,13 @@ export class Header extends Component {
 
     return (
       <header>
-        <div>
+        <div className="brand">
           <img src={Logo} alt="UME 4-H Logo" />
         </div>
-        <div>
+        <div className="title">
           <h1>Club List Manager</h1>
         </div>
-        <div>
+        <div className="auth">
           <Auth onAuth={isAuth => onAuth(isAuth)} />
         </div>
       </header>

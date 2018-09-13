@@ -3,8 +3,31 @@ header {
   border-bottom-left-radius: 0.5em;
   border-bottom-right-radius: 0.5em;
   box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
-  display: flex;
+  /* display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-right: 2em;
+  padding-right: 2em; */
+  display: grid;
+  grid-template-columns: 256px auto 256px;
+  align-items: center;
+}
+
+header div {
+  text-align: center;
+}
+
+@media screen AND (max-width: 800px) {
+  header {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .brand img {
+    height: 64px;
+  }
+
+  .title {
+    grid-column: 1 / span 2;
+    grid-row: 2;
+    margin-bottom: 0.5em;
+  }
 }
