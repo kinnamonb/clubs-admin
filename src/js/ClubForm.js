@@ -41,6 +41,7 @@ export class ClubForm extends Component {
             <h3 className="group-title">Club</h3>
             <label htmlFor="name">Name</label>
             <input
+              autoFocus={true}
               type="text"
               id="name"
               value={club.name}
